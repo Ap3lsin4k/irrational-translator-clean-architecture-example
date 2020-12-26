@@ -1,7 +1,7 @@
-import pytest
+class ReaderRepository:
 
-
-whole_raw_text = """Iван Нечуй-Левицький. Двi московки
+    def read_file_from_default_pathname(self):
+        return """Iван Нечуй-Левицький. Двi московки
 
 
 V _
@@ -814,3 +814,32 @@ i насилу мрiють, як журавлi рядочками.
 од свого лиха, i не загуляла, й не заспiвала, й не затанцювала його навiть
 в Києвi".
 """
+
+    def merge_two_words(self, clean_word, second_word):
+        return set(clean_word) | set(second_word)
+
+    def merge_two_lists_of_words(self, words1, words2):
+        merged_words_vector = []
+
+        for i in range(max(len(words1), len(words2))):
+            word1 = words1[i] if len(words1) > i else ""
+            word2 = words2[i] if len(words2) > i else ""
+            merged_words_vector.append(self.merge_two_words(word1, word2))
+
+        return merged_words_vector
+
+    def merge_two_sentences(self, first_sentence, second_sentence):
+        return self.merge_two_lists_of_words(
+            self.split_to_words(first_sentence),
+            self.split_to_words(second_sentence))
+
+    def split_to_words(self, sentence_with_punctuation):
+        return list(map(self.__clean_from_punctuation_marks, sentence_with_punctuation.split()))
+
+    @staticmethod
+    def __clean_from_punctuation_marks(word):
+        clean_word = ""
+        for char in word:
+            if char in "АаБбВвГгҐґДдЕеЄєЖжЗзИиІіЇїЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЬьЮюЯяicICeEoOpPkKHxXMTaA":
+                clean_word = clean_word + char
+        return clean_word

@@ -1,4 +1,4 @@
-from gateway.file_reader_repository import FileReaderRepository
+from model.gateway.file_reader_repository import FileReaderRepository
 
 from tests.fixtures.big_data_examples import whole_raw_text
 

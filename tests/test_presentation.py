@@ -81,3 +81,4 @@ def test_present_sentence():
         assert letter in {'п', 'х', 'к', 'у', 'т', 'о', 'л', 'а', 'с'}
 
 
+# TODO use file writer to save messages into the file in presenter

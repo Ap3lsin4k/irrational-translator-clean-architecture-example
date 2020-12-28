@@ -1,12 +1,16 @@
 import pytest
-from gateway.merger_repository import MergerRepository
+from gateway.merger_repository import *
 
 from tests.fixtures.big_data_examples import whole_raw_text
 
 
 @pytest.fixture
-def r() -> MergerRepository():
-    return MergerRepository()
+def r() -> CleanerAndMergerAndReaderRepository():
+    return CleanerAndMergerAndReaderRepository()
+
+@pytest.fixture
+def cleaner() -> CleanAndSplitTextRepository():
+    return CleanAndSplitTextRepository()
 
 
 def test_read(r):
@@ -17,7 +21,7 @@ def test_read(r):
 def test_merge_words(r):
     first = "Кiт"
     second = "Десь"
-    res = r.merge_two_words(first, second)
+    res = merge_two_words(first, second)
     difference = {'Д', 'е', 'с', 'ь', 'К', 'i', 'т'}.symmetric_difference(res)
     assert difference == set()
     assert len(difference) == 0
@@ -26,7 +30,7 @@ def test_merge_words(r):
 def test_merge_two_lower_case_words(r):
     first = "кiт"
     second = "десь"
-    res = r.merge_two_words(first, second)
+    res = merge_two_words(first, second)
     difference = {'к', 'i', 'т', 'д', 'е', 'с', 'ь'}.symmetric_difference(res)
     assert difference == set()
     assert len(difference) == 0
@@ -78,10 +82,10 @@ def test_merge_two_sentences_with_punctuation_long():
     pass
 
 
-def test_split_to_words(r):
+def test_split_to_words(cleaner):
     sentence_with_punctuation = """Весела Марина сполохала сонну хату; все  живе  в  хатi  знов  ожило,
     прокинулось, зашумiло, загомонiло."""
-    result = r.split_to_words(sentence_with_punctuation)
+    result = cleaner.split_to_words(sentence_with_punctuation)
     assert result[0] == 'Весела'
     assert result[1] == 'Марина'
     assert result[4] == 'хату'
@@ -115,8 +119,8 @@ def test_merge_two_sentences_with_quote_punctuation_marks(r):
     assert sentence[1] == set("йвтекла")
     assert sentence[2] == set("прочиталкажуь")
     assert sentence[3] == set("затаки")
-    assert sentence[-1] == {'К','и','є','в','i'}
-    assert sentence[19] == {'К','и','є','в','i'}
+    assert sentence[-1] == {'К', 'и', 'є', 'в', 'i'}
+    assert sentence[19] == {'К', 'и', 'є', 'в', 'i'}
     assert len(sentence) == 20
 
 
@@ -125,35 +129,89 @@ def test_merge_text_with_two_sentences_remove_punctuation(r):
 
 
 V _"""
-    re = MergerRepository()
 
-    words = re.merge_pairs_of_sentences_in_text(text)
-    assert words[0] == {'I','в','а','н', 'Д','в','i'}
-    assert words[1] == {'Н','е','ч','у','й', 'м','о','с','к','о','в','к','и','Л','е','в','и','ц','ь','к','й'}
+    words = r.merge_pairs_of_sentences_in_text(text)
+    assert words[0] == {'I', 'в', 'а', 'н', 'Д', 'в', 'i'}
+    assert words[1] == {'Н', 'е', 'ч', 'у', 'й', 'м', 'о', 'с', 'к', 'о', 'в', 'к', 'и', 'Л', 'е', 'в', 'и', 'ц', 'ь',
+                        'к', 'й'}
     with pytest.raises(IndexError):
         assert words[2] is None
     assert len(words) == 2
-#    assert len(words) == 3
-    #assert words[1] == {'I', 'в', 'а', 'н', 'Д', 'в', 'i'}
 
 
-@pytest.mark.skip("TODO")
-def test_split_text_to_pairs_of_sentences():
-    pass
+def test_split_three_sentences(r):
+    text = """Не зрозумiю, сину, що ти говориш. Тобто ти паном будеш, чи що?
+   - Так, так, матушко."""
+    r.split_to_clean_sentences(text)
+    res = r.sentences_list
+    assert res[0] == "Не зрозумiю  сину  що ти говориш"
+    assert res[1] == " Тобто ти паном будеш  чи що"
+    assert res[2] == "      Так  так  матушко"
+    with pytest.raises(IndexError):
+        assert res[3] is None
 
 
-@pytest.mark.skip("TODO")
-def test_newline():
-    pass
+#  assert len(res) ==
 
+
+def test_do_not_spoil_one_sentence_in_text(cleaner):
+    text = "На"
+    cleaner.split_to_clean_sentences(text)
+    assert cleaner.sentences_list[0] == "На"
+    assert len(cleaner.sentences_list) == 1
+
+
+def test_make_pairs_of_sentences_with_exclemation_mark(r):
+    text = """На, на полу, на печi,як  хмара, та
+хлопцi! Смiх, регiт, жарти та спiви"""
+    r.split_to_clean_sentences(text)
+    two_sentences = r.sentences_list
+    assert two_sentences[0] == "На  на полу  на печi як  хмара  та хлопцi"
+    assert two_sentences[1] == " Смiх  регiт  жарти та спiви"
+    with pytest.raises(IndexError):
+        print(two_sentences[3])
+
+
+def test_halve_text_with_three_dots(r):
+    text = """Чи...сказала"""
+    r.split_to_clean_sentences(text)
+    assert r.sentences_list == ['Чи', 'сказала']
+
+
+def test_replace_newline_with_whitespace(cleaner):
+    text = """Одвернула вона й закрила своє лице.
+   Пройшла,. за
+пi. и
+одi"."""
+    assert cleaner.sentences_list == []
+    cleaner.split_to_clean_sentences(text)
+    assert cleaner.sentences_list[0] == 'Одвернула вона й закрила своє лице'
+    assert cleaner.sentences_list[1] == '    Пройшла '
+    assert cleaner.sentences_list[2] == ' за пi'
+    assert cleaner.sentences_list[3] == ' и одi '
+
+
+def test_merge_words_for_three_sentences_unit_test():
+    me = CleanerAndMergerAndReaderRepository()
+    text = """небi. Як,  заворушились  на
+    улицях люди; бiжать на базар мiщанки з  кошиками,  по  мостовiй  деркотять
+    звощики. Пiд шинком лежить, нiчого не чує Марина."""
+    me.sentences_list = ['г ', ' очей', 'коло сочi з ']
+
+    me.pair_and_merge_sentences()
+    assert me.merged_sentences[0] == [set('очейг')]
+    assert me.merged_sentences[1] == "коло сочi з "
+
+
+@pytest.mark.skip("Should do unit test before testing integration")
+def test_merge_words_for_three_sentences_integration_test():
+    me = CleanerAndMergerAndReaderRepository
+    text = """небi. Як,  заворушились  на
+улицях люди; бiжать на базар мiщанки з  кошиками,  по  мостовiй  деркотять
+звощики. Пiд шинком лежить, нiчого не чує Марина."""
 
 @pytest.mark.skip("TODO")
 def test_capital_character():
-    pass
-
-
-@pytest.mark.skip("TODO")
-def test_make_pairs_of_sentences_with_question_mark_and_exclemation_mark_or_three_dots():
     pass
 
 

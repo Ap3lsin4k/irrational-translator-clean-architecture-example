@@ -1,21 +1,14 @@
 import pytest
 from gateway.merger_repository import *
 
-from tests.fixtures.big_data_examples import whole_raw_text
-
 
 @pytest.fixture
-def r() -> CleanerAndMergerAndReaderRepository():
-    return CleanerAndMergerAndReaderRepository()
+def r() -> MergerRepository():
+    return MergerRepository()
 
 @pytest.fixture
 def cleaner() -> CleanAndSplitTextRepository():
     return CleanAndSplitTextRepository()
-
-
-def test_read(r):
-    res = r.read_file_from_default_pathname()
-    assert len(res) == len(whole_raw_text)
 
 
 def test_merge_words(r):
@@ -142,8 +135,9 @@ V _"""
 def test_split_three_sentences(r):
     text = """Не зрозумiю, сину, що ти говориш. Тобто ти паном будеш, чи що?
    - Так, так, матушко."""
-    r.split_to_clean_sentences(text)
-    res = r.sentences_list
+    cl = CleanAndSplitTextRepository()
+    cl.split_to_clean_sentences(text)
+    res = cl.sentences_list
     assert res[0] == "Не зрозумiю  сину  що ти говориш"
     assert res[1] == " Тобто ти паном будеш  чи що"
     assert res[2] == "      Так  так  матушко"
@@ -161,21 +155,21 @@ def test_do_not_spoil_one_sentence_in_text(cleaner):
     assert len(cleaner.sentences_list) == 1
 
 
-def test_make_pairs_of_sentences_with_exclemation_mark(r):
+def test_make_pairs_of_sentences_with_exclemation_mark(cleaner):
     text = """На, на полу, на печi,як  хмара, та
 хлопцi! Смiх, регiт, жарти та спiви"""
-    r.split_to_clean_sentences(text)
-    two_sentences = r.sentences_list
+    cleaner.split_to_clean_sentences(text)
+    two_sentences = cleaner.sentences_list
     assert two_sentences[0] == "На  на полу  на печi як  хмара  та хлопцi"
     assert two_sentences[1] == " Смiх  регiт  жарти та спiви"
     with pytest.raises(IndexError):
         print(two_sentences[3])
 
 
-def test_halve_text_with_three_dots(r):
+def test_halve_text_with_three_dots(cleaner):
     text = """Чи...сказала"""
-    r.split_to_clean_sentences(text)
-    assert r.sentences_list == ['Чи', 'сказала']
+    cleaner.split_to_clean_sentences(text)
+    assert cleaner.sentences_list == ['Чи', 'сказала']
 
 
 def test_replace_newline_with_whitespace(cleaner):
@@ -192,20 +186,22 @@ def test_replace_newline_with_whitespace(cleaner):
 
 
 def test_merge_words_for_three_sentences_unit_test():
-    me = CleanerAndMergerAndReaderRepository()
+    me = MergerRepository()
     text = """небi. Як,  заворушились  на
     улицях люди; бiжать на базар мiщанки з  кошиками,  по  мостовiй  деркотять
     звощики. Пiд шинком лежить, нiчого не чує Марина."""
-    me.sentences_list = ['г ', ' очей', 'коло сочi з ']
-
-    me.pair_and_merge_sentences()
+    me.pair_and_merge_sentences(['г ', ' очей', 'коло сочi з '])
     assert me.merged_sentences[0] == [set('очейг')]
-    assert me.merged_sentences[1] == "коло сочi з "
+    assert me.merged_sentences[1] == [set("коло"), set("сочi"), {"з"}]
+
+@pytest.mark.skip("Don't go for the gold first")
+def test_pair_and_merge_zero_sentences_or_one():
+    pass
 
 
 @pytest.mark.skip("Should do unit test before testing integration")
 def test_merge_words_for_three_sentences_integration_test():
-    me = CleanerAndMergerAndReaderRepository
+    me = MergerRepository
     text = """небi. Як,  заворушились  на
 улицях люди; бiжать на базар мiщанки з  кошиками,  по  мостовiй  деркотять
 звощики. Пiд шинком лежить, нiчого не чує Марина."""

@@ -1,13 +1,12 @@
 import pytest
-from gateway import reader_repository
-from gateway.reader_repository import ReaderRepository
+from gateway.merger_repository import MergerRepository
 
 from tests.fixtures.big_data_examples import whole_raw_text
 
 
 @pytest.fixture
-def r() -> ReaderRepository():
-    return ReaderRepository()
+def r() -> MergerRepository():
+    return MergerRepository()
 
 
 def test_read(r):
@@ -101,8 +100,41 @@ def test_merge_two_sentences_with_punctuation(r):
 муха."""
     sentence = r.merge_two_sentences(first_sentence, second_sentence)
     assert sentence[0] == {'Д', 'е', 'с', 'ь', 'В', 'е', 'с', 'л', 'а'}
-    assert sentence[3] == set('сонну') | set("задзижчала")
+    assert sentence[3] == set('соннузадзижчала')
     assert sentence[4] == {'х', 'а', 'т', 'у', 'м'}
+
+
+def test_merge_two_sentences_with_quote_punctuation_marks(r):
+    first = """Перехрестились й прочитали за
+покiй душi "Отченаш" навiть вороги Марининi."""
+    second = """"Не втекла, - кажуть, -  таки
+од свого лиха, i не загуляла, й не заспiвала, й не затанцювала його навiть
+в Києвi"."""
+    sentence = r.merge_two_sentences(first, second)
+    assert sentence[0] == {'П', 'е', 'р', 'е', 'х', 'р', 'е', 'с', 'т', 'и', 'л', 'и', 'с', 'ь', 'Н'}
+    assert sentence[1] == set("йвтекла")
+    assert sentence[2] == set("прочиталкажуь")
+    assert sentence[3] == set("затаки")
+    assert sentence[-1] == {'К','и','є','в','i'}
+    assert sentence[19] == {'К','и','є','в','i'}
+    assert len(sentence) == 20
+
+
+def test_merge_text_with_two_sentences_remove_punctuation(r):
+    text = """Iван Нечуй-Левицький. Двi московки
+
+
+V _"""
+    re = MergerRepository()
+
+    words = re.merge_pairs_of_sentences_in_text(text)
+    assert words[0] == {'I','в','а','н', 'Д','в','i'}
+    assert words[1] == {'Н','е','ч','у','й', 'м','о','с','к','о','в','к','и','Л','е','в','и','ц','ь','к','й'}
+    with pytest.raises(IndexError):
+        assert words[2] is None
+    assert len(words) == 2
+#    assert len(words) == 3
+    #assert words[1] == {'I', 'в', 'а', 'н', 'Д', 'в', 'i'}
 
 
 @pytest.mark.skip("TODO")

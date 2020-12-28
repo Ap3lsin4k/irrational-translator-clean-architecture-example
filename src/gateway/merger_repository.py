@@ -1,4 +1,4 @@
-class ReaderRepository:
+class MergerRepository:
 
     def read_file_from_default_pathname(self):
         return """Iван Нечуй-Левицький. Двi московки
@@ -843,3 +843,12 @@ i насилу мрiють, як журавлi рядочками.
             if char in "АаБбВвГгҐґДдЕеЄєЖжЗзИиІіЇїЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЬьЮюЯяicICeEoOpPkKHxXMTaA":
                 clean_word = clean_word + char
         return clean_word
+
+    def merge_pairs_of_sentences_in_text(self, text_with_punctuation):
+        first_sentence = text_with_punctuation.split('.', 1)
+        clean_word = str()
+        for char in first_sentence[1]:
+            if char not in 'V_':
+                clean_word += (char)
+
+        return self.merge_two_sentences(first_sentence[0], clean_word)

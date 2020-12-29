@@ -195,5 +195,4 @@ def test_merge_two_sentences_and_return_strings():
 #    with pytest.raises(KeyError):
 #        use_cases.classify("добрий")
 
-# TODO ask whether I need to lower all the other letters,
-# TODO should I keep punctuation
+# TODO don't keep the punctuation

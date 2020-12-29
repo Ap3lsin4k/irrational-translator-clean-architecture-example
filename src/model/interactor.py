@@ -9,11 +9,12 @@ class UserStory:
             CleanAndSplitTextRepository.split_to_words(first_sentence),
             CleanAndSplitTextRepository.split_to_words(second_sentence))
 
-    @staticmethod
-    def split_text_to_sentences_and_merge_them(text_with_punctuation):
+    def split_text_to_sentences_and_merge_them(self, text_with_punctuation):
         clean_and_split_repo = CleanAndSplitTextRepository()
         clean_and_split_repo.split_to_clean_sentences(text_with_punctuation)
-
-        return UserStory.merge_two_sentences(
-            clean_and_split_repo.sentences_list[0],
-            "".join([ukrainian_letter for ukrainian_letter in clean_and_split_repo.sentences_list[1] if ukrainian_letter not in 'V_']))
+        merger_repo = MergerRepository(self)
+        merger_repo.pair_and_merge_sentences(clean_and_split_repo.sentences_list)
+        return merger_repo.merged_sentences
+        #return UserStory.merge_two_sentences(
+        #    clean_and_split_repo.sentences_list[0],
+        #    "".join([ukrainian_letter for ukrainian_letter in clean_and_split_repo.sentences_list[1] if ukrainian_letter not in 'V_']))

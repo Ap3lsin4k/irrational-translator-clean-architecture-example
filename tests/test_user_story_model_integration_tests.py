@@ -29,7 +29,7 @@ def test_merge_text_with_two_sentences_remove_punctuation(uc):
 
 V _"""
 
-    words = uc.split_text_to_sentences_and_merge_them(text)
+    words = uc.split_text_to_sentences_and_merge_them(text)[0]
     assert words[0] == {'I', 'в', 'а', 'н', 'Д', 'в', 'i'}
     assert words[1] == {'Н', 'е', 'ч', 'у', 'й', 'м', 'о', 'с', 'к', 'о', 'в', 'к', 'и'}
     assert words[2] == {'Л', 'е', 'в', 'и', 'ц', 'ь', 'к', 'й'}
@@ -47,3 +47,5 @@ def test_split_text_and_merge_sentences(uc):
  i б'є, т i  
 та ."""
     presenter_spy = uc.split_text_to_sentences_and_merge_them(text)
+    assert presenter_spy[0][0] == set("ГуляєВ")
+    assert presenter_spy[0][1] == set("упо")

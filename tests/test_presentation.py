@@ -74,3 +74,7 @@ def test_present_sentence():
 
 
 # TODO use file writer to save messages into the file in presenter
+
+@pytest.mark.skip("TODO")
+def test_capitilize_and_newline():
+    pass

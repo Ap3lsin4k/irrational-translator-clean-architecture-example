@@ -1,6 +1,7 @@
 import pytest
-from model.interactor import UserStory
+from src.model.interactor import UserStory
 
+from src import Replacer, MergerRepository
 from tests.dummies.presenter_dummies import PresenterDummy
 
 
@@ -15,12 +16,12 @@ class FileReaderSpy:
 
 @pytest.fixture
 def uc() -> UserStory:
-    return UserStory(PresenterDummy(), FileReaderSpy(), Replacer())
+    return UserStory(PresenterDummy(), FileReaderSpy(), Replacer(), None)
 
 
 def test_user_story_reads_data_from_file_reader():
     fr = FileReaderSpy()
     assert not fr.was_read_file_from_default_pathname_called
-    uc = UserStory(PresenterDummy(), fr, None)
+    uc = UserStory(PresenterDummy(), fr, None, MergerRepository())
     uc.modify_sentences_in_text()
     assert fr.was_read_file_from_default_pathname_called

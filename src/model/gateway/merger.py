@@ -1,4 +1,4 @@
-from model.gateway.clean_and_split_text_repository import CleanAndSplitTextRepository
+from src.model.gateway.clean_and_split_text_repository import CleanAndSplitTextRepository
 
 
 def merge_two_words(clean_word, second_word):

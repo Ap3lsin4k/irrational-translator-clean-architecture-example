@@ -1,6 +1,6 @@
 import pickle
 
-from other.kyiv_dictionary import KyivDictionary
+from other.kyiv_dictionary_entity import KyivDictionary
 
 
 class Cucumber:

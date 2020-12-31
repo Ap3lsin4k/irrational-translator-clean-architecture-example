@@ -1,8 +1,8 @@
 import pickle
 
-from model.gateway.cucumber import Cucumber
-from other.kyiv_dictionary import KyivDictionary
-from src import UserStory
+from src.model.gateway.cucumber import Cucumber
+from src.other.kyiv_dictionary_entity import KyivDictionary
+from src import UserStory, MergerRepository
 
 import os
 
@@ -10,7 +10,7 @@ from tests.dummies.file_reader import FileReaderRepositoryDummy
 
 
 def test_nothing():
-    uc = UserStory(None, FileReaderRepositoryDummy(), None)
+    uc = UserStory(None, FileReaderRepositoryDummy(), None, MergerRepository())
     if os.path.exists("E:/lab5/initial.kd"):
         os.remove("E:/lab5/initial.kd")
 

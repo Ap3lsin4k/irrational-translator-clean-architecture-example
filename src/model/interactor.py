@@ -1,17 +1,17 @@
 import pickle
 
-from model.gateway.clean_and_split_text_repository import CleanAndSplitTextRepository
-from model.gateway.cucumber import Cucumber
-from model.gateway.merger import MergerRepository
-from other.kyiv_dictionary import KyivDictionary
+from src.model.gateway.cucumber import Cucumber
+from src.other.kyiv_dictionary_entity import KyivDictionary
 
 
 class UserStory:
-    def __init__(self, presenter, text_reader, replacer):
+    def __init__(self, presenter, text_reader, replacer, merger):
         self.presenter = presenter
         self.text_reader = text_reader
         self.replacer = replacer
-        self.merger_service = MergerRepository()
+        self.merger_service = merger
+        self.cucumber = Cucumber(KyivDictionary())
+
 
     def modify_sentences_in_text(self):
         try:
@@ -44,15 +44,13 @@ class UserStory:
             print("Info: 'lab6/' folder was created in C:/")
 
     def execute_lab5_kyiv_dictionary(self):
-        cucumber = Cucumber(KyivDictionary())
+        self.cucumber.save_kyiv_dictionary("E:/lab5/initial.kd")
 
-        cucumber.save_kyiv_dictionary("E:/lab5/initial.kd")
+        self.cucumber.load_kyiv_dictionary_from_default_path(r"E:/lab5/initial.kd")
 
-        cucumber.load_kyiv_dictionary_from_default_path(r"E:/lab5/initial.kd")
+        self.cucumber.extend_kyiv_dictionary({'л': {'lackey ': ['menial', 'retainer', 'servant', 'slavey', 'steward', 'dependable', 'reliable', 'responsible']}})
 
-        cucumber.extend_kyiv_dictionary({'л': {'lackey ': ['menial', 'retainer', 'servant', 'slavey', 'steward', 'dependable', 'reliable', 'responsible']}})
-
-        cucumber.save_kyiv_dictionary("E:/lab5/updated dictionary.kd")
+        self.cucumber.save_kyiv_dictionary("E:/lab5/updated dictionary.kd")
 
     def execute_lab6_parts_of_speech_in_ukrainian_language(self):
         pass

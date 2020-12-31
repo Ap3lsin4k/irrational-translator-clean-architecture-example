@@ -9,7 +9,7 @@ from tests.dummies.replacer import ReplacerDummy
 def test_warns_if_file_does_not_exist():
     presenter = PresenterSpy(None)
     reader = FileReaderRepository()
-    uc = UserStory(presenter, reader, ReplacerDummy())
+    uc = UserStory(presenter, reader, ReplacerDummy(), MergerRepository())
     # do not create file
     assert not presenter.last_error_message
     reader.input_filepath = reader.working_dir + "thisfiledefinatellydoesnotexist.txt"
@@ -21,7 +21,7 @@ def test_finds_file_if_exists():
     # setup
     presenter = PresenterSpy(None)
     reader = FileReaderRepository()
-    uc = UserStory(presenter, reader, ReplacerDummy())
+    uc = UserStory(presenter, reader, ReplacerDummy(), MergerRepository())
     open("C:/lab7/Fedorko/thisfilemustnotexistoutsideofunittesting.txt", 'w').close()
     reader.input_filepath = "C:/lab7/Fedorko/thisfilemustnotexistoutsideofunittesting.txt"
 

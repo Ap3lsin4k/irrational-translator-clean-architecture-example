@@ -1,6 +1,4 @@
-import pytest
-from gateway.replace_service import Replacer
-from src import UserStory
+from model.gateway.replace_service import Replacer
 
 
 def test_replace_small_letters():
@@ -30,8 +28,7 @@ def test_ignore_sign():
 
 def test_replace_each_letter_in_text():
     rl = Replacer()
-    res = rl.replace_vowels_with_consonant("дит")
+    res = rl.replace_vowels_with_consonants("дит")
     assert res[0] in "аеєиzіїоуюя"
 
 
-# TODO test user story calls presenter after file reader

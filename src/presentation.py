@@ -1,3 +1,6 @@
+import builtins
+
+
 class Presenter:
     def __init__(self, view):
         self.view = view
@@ -14,3 +17,6 @@ class Presenter:
     @staticmethod
     def __container_to_str(each_character_as_array_element):
         return "".join(each_character_as_array_element)
+
+    def present_error(self, printable):
+        builtins.print(printable)

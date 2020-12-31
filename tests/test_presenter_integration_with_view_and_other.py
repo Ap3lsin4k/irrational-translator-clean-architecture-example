@@ -63,8 +63,6 @@ def test_present_sentence():
         assert letter in {'п', 'х', 'к', 'у', 'т', 'о', 'л', 'а', 'с'}
 
 
-# TODO use file writer to save messages into the file in presenter
-
 def test_capitalize():
     view = ViewSpy()
     p = Presenter(view)
@@ -85,4 +83,8 @@ def test_merge_two_sentences_and_return_strings():
 
 @pytest.mark.skip("TODO in presenter")
 def test_error_printing_if_file_was_not_found_or_directory_was_not_created():
+    pass
+
+@pytest.mark.skip("Test newline is only one")
+def test_nothing():
     pass

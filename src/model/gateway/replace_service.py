@@ -21,7 +21,7 @@ class Replacer(object):
                 return random.choice("аеєиіїоуюя")
         return letter
 
-    def replace_vowels_with_consonant(self, text):
+    def replace_vowels_with_consonants(self, text):
         new_text = []
         for letter in text:
             new_text.append(self._replace_vowel_with_random_consonant_and_vice_versa(letter))

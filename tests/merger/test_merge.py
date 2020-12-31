@@ -1,11 +1,6 @@
 import pytest
-from gateway.replace_service import Replacer
 from model.gateway.merger import MergerRepository
 from model.gateway.merger import merge_two_words
-from model.interactor import UserStory
-
-from tests.dummies.file_reader import Dummy
-from tests.dummies.presenter_dummies import PresenterDummy
 
 
 @pytest.fixture

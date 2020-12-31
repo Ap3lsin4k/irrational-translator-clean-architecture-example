@@ -1,7 +1,6 @@
 #__init__.py
-import builtins
 
-from gateway.replace_service import Replacer
+from model.gateway.replace_service import Replacer
 from model.gateway.file_reader_repository import FileReaderRepository
 from model.interactor import UserStory
 from presentation import Presenter

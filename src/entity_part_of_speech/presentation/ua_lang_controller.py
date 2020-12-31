@@ -1,6 +1,7 @@
+from src.entity_part_of_speech.presentation.ua_lang_presenter import UkrainianLanguagePresenter
+
 from entity_part_of_speech.bookmark_entity import Bookmark
 from entity_part_of_speech.language_interactor import UkrainianLanguageInteractor
-from entity_part_of_speech.presentation import UkrainianLanguagePresenter
 
 ua_lang = UkrainianLanguageInteractor({
     'іменник': {
@@ -59,44 +60,6 @@ ua_lang = UkrainianLanguageInteractor({
             "неозначені": ("абихто", "абищо", "будь-який", "скільки-небудь"),
             "заперечні": ("ніщо", "ніякий", "нічий", "аніхто", "аніщо", "аніякий")
         }
-    },
-    'дієслово': {
-        'вид': {
-            "доконаний":
-                ("заробив", "перевів", "співають", "бажає"),
-            "недоконаний":
-                ("заробляв", "переводить", "співали", "бажала"),
-        },
-        'рід': {
-            "чоловічий":
-                ("працював",),
-            "жіночий":
-                ("працювала",),
-            "середній":
-                ("працювало",)
-        },
-        'число': {
-            'однина':
-                ("малював", "малювала", "малювало"),
-            'множина':
-                ("малювали",),
-        },
-        'спосіб': {
-            'дійсний':
-                ("працюю", "сказали", "летить", "прийде"),
-            'умовний':
-                ("ходила б", "вживав би", "поспішали б"),
-            'наказовий':
-                ("напишіть", "ходіймо", "хай зайде")
-        },
-        'час': {
-            'минулий':
-                ("знаходив", "знаходила", "знаходили", "працював", "працювала", "працювало"),
-            'теперішній':
-                ("знаходжу", "знаходимо", "знаходите"),
-            'майбутній':
-                ("знайду", "знайдемо")
-        },
     }
 })
 presenter = UkrainianLanguagePresenter()

@@ -7,9 +7,9 @@ from entity_part_of_speech.repositories.word_of_same_category_repository import 
 
 class UkrainianLanguageInteractor():
     def __init__(self, nested_dictionary):
-        self.__dictionary = LanguageEntity(nested_dictionary)
-        self.__classifier = WordClassifierRepository(self.__dictionary)
-        self.__words_same_category = WordsOfSameCategoryRepository(self.__dictionary)
+        self.dictionary = LanguageEntity(nested_dictionary)
+        self.__classifier = WordClassifierRepository(self.dictionary)
+        self.__words_same_category = WordsOfSameCategoryRepository(self.dictionary)
 
     # WORD CLASSIFIER
     def classify(self, input_word):
@@ -23,17 +23,17 @@ class UkrainianLanguageInteractor():
         return res
 
     def modify(self, bookmark, old_word, new_word):
-        modifiable = list(self.__dictionary.get_words_for_property(bookmark))
+        modifiable = list(self.dictionary.get_words_for_property(bookmark))
         index = modifiable.index(old_word)
         modifiable[index] = new_word
-        self.__dictionary[bookmark.get_part_of_speech()][bookmark.category_name][bookmark.property_name] = tuple(modifiable)
+        self.dictionary[bookmark.get_part_of_speech()][bookmark.category_name][bookmark.property_name] = tuple(modifiable)
 
     def update(self, param):
-        self.__dictionary.update(param)
+        self.dictionary.update(param)
 
     def construct_close_matches(self, typo):
         suggestion = set()
-        CorrectTypo().get_close_matches(suggestion, self.__dictionary, typo)
+        CorrectTypo().get_close_matches(suggestion, self.dictionary, typo)
         return suggestion
 
 

@@ -13,7 +13,7 @@ class Cucumber:
         pickle.dump(self.kyiv_dictionary, f)
         f.close()
 
-    def load_kyiv_dictionary_from_default_path(self, path):
+    def load_kyiv_dictionary(self, path):
         f = open(path, "rb")
         self.kyiv_dictionary = pickle.load(f)
         f.close()

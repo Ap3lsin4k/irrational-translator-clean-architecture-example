@@ -1,5 +1,8 @@
 import pickle
 
+from src.entity_part_of_speech.presentation.ua_lang_controller import ua_lang
+
+from model.gateway.library import Library
 from src.model.gateway.cucumber import Cucumber
 from src.other.kyiv_dictionary_entity import KyivDictionary
 
@@ -11,6 +14,7 @@ class UserStory:
         self.replacer = replacer
         self.merger_service = merger
         self.cucumber = Cucumber(KyivDictionary())
+        self.library = Library(ua_lang)
 
 
     def modify_sentences_in_text(self):
@@ -44,13 +48,14 @@ class UserStory:
             print("Info: 'lab6/' folder was created in C:/")
 
     def execute_lab5_kyiv_dictionary(self):
-        self.cucumber.save_kyiv_dictionary("E:/lab5/initial.kd")
+        self.cucumber.save_kyiv_dictionary("C:/lab5/initial.kd")
 
-        self.cucumber.load_kyiv_dictionary_from_default_path(r"E:/lab5/initial.kd")
+        self.cucumber.load_kyiv_dictionary(r"C:/lab5/initial.kd")
 
         self.cucumber.extend_kyiv_dictionary({'л': {'lackey ': ['menial', 'retainer', 'servant', 'slavey', 'steward', 'dependable', 'reliable', 'responsible']}})
 
-        self.cucumber.save_kyiv_dictionary("E:/lab5/updated dictionary.kd")
+        self.cucumber.save_kyiv_dictionary("C:/lab5/updated dictionary.kd")
 
     def execute_lab6_parts_of_speech_in_ukrainian_language(self):
-        pass
+        self.library.save_parts_of_speech("C:/lab6/initial.spch")
+

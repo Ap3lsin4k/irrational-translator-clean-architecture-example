@@ -31,4 +31,7 @@ def test_ignore_sign():
 def test_replace_each_letter_in_text():
     rl = Replacer()
     res = rl.replace_vowels_with_consonant("дит")
-    assert res[0] in "аеєиіїоуюя"
+    assert res[0] in "аеєиzіїоуюя"
+
+
+# TODO test user story calls presenter after file reader

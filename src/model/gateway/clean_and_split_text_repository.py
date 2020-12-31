@@ -13,11 +13,11 @@ class CleanAndSplitTextRepository:
     def split_to_words(sentence_with_punctuation):
         return tuple(
             filter(lambda w: w,
-                   map(CleanAndSplitTextRepository.clean_from_punctuation_marks,
+                   map(CleanAndSplitTextRepository.__clean_from_punctuation_marks,
                        sentence_with_punctuation.split())))
 
     @staticmethod
-    def clean_from_punctuation_marks(word):
+    def __clean_from_punctuation_marks(word):
         clean_word = list()
         return "".join(
             [char

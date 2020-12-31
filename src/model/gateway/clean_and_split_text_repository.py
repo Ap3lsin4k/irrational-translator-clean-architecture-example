@@ -4,6 +4,7 @@ def append_by_ref_ukrainian_letter_or_replace_with_whitespace(mutable_sentence_b
     else:
         mutable_sentence_by_ref.append(' ')
 
+
 class CleanAndSplitTextRepository:
     def __init__(self):
         self.sentences_list = []

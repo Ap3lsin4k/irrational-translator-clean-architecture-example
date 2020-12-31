@@ -1,5 +1,6 @@
-import builtins
 import pytest
+
+from presentation import Presenter
 
 
 class ViewSpy:
@@ -11,17 +12,6 @@ class ViewSpy:
 
         self.last_message = sep.join(map(str, args)) + end
 
-
-class Presenter:
-    def __init__(self, view):
-        self.view = view
-
-    def present_sentence(self, response_model):
-        self.view.print(*map(self.__container_to_str, response_model))
-
-    @staticmethod
-    def __container_to_str(each_character_as_array_element):
-        return "".join(each_character_as_array_element)
 
 def test_view():
     v = ViewSpy()
@@ -60,7 +50,7 @@ def test_present_sentence():
 
     assert len(first_word) == 7
     for letter in first_word:
-        assert letter in {'ь', 'е', 'с', 'Д', 'В', 'л', 'а'}
+        assert letter.lower() in {'ь', 'е', 'с', 'д', 'в', 'л', 'а'}
 
     assert view.last_message[-1] == '\n'
     assert view.last_message[13] != ' '
@@ -75,6 +65,24 @@ def test_present_sentence():
 
 # TODO use file writer to save messages into the file in presenter
 
-@pytest.mark.skip("TODO")
+def test_capitalize():
+    view = ViewSpy()
+    p = Presenter(view)
+    p.present_sentence(({'ь'}, {'а', 'н'},
+                        {'п', 'х'}))
+    assert view.last_message[0] == 'Ь'
+    assert view.last_message[-1] == '\n'
+
 def test_capitilize_and_newline():
+    pass
+
+@pytest.mark.skip("TODO")
+def test_capital_character():
+    pass
+@pytest.mark.skip("TODO in presenter")
+def test_merge_two_sentences_and_return_strings():
+    pass
+
+@pytest.mark.skip("TODO in presenter")
+def test_error_printing_if_file_was_not_found_or_directory_was_not_created():
     pass

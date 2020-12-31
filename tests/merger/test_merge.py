@@ -1,11 +1,11 @@
 import pytest
-from model.gateway.merger import MergerRepository
+from model.gateway.merger import MergerService
 from model.gateway.merger import merge_two_words
 
 
 @pytest.fixture
-def merger() -> MergerRepository():
-    return MergerRepository()
+def merger() -> MergerService():
+    return MergerService()
 
 
 
@@ -78,7 +78,7 @@ def test_merge_two_sentences_with_punctuation():
 прокинулось, зашумiло, загомонiло."""
     second_sentence = """  Десь  у  кутку  задзижчала
 муха."""
-    uc = MergerRepository()
+    uc = MergerService()
 
     sentence = uc.merge_two_sentences(first_sentence, second_sentence)
     assert sentence[0] == {'Д', 'е', 'с', 'ь', 'В', 'е', 'с', 'л', 'а'}
@@ -90,7 +90,7 @@ def test_merge_two_sentences_with_punctuation():
 
 @pytest.mark.skip("Should do unit test before testing integration")
 def test_merge_words_for_three_sentences_integration_test():
-    me = MergerRepository
+    me = MergerService
     text = """небi. Як,  заворушились  на
 улицях люди; бiжать на базар мiщанки з  кошиками,  по  мостовiй  деркотять
 звощики. Пiд шинком лежить, нiчого не чує Марина."""

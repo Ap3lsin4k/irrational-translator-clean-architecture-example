@@ -16,7 +16,6 @@ class FileReaderRepository:
             return True
         return False
 
-# TODO make working directory for lab5, lab6
     def read(self):
         #        from pathlib import Path
         #        Path(self.working_dir).mkdir(parents=True, exist_ok=True)
@@ -41,9 +40,8 @@ class FileReaderRepository:
 
         text = sep.join(map(str, args)) + end
 
-        self.__write(text)
+        self.write(text)
 
-    def __write(self, text):
-        with open(self.working_dir + '231.txt', "a", encoding="cp1251") as f:
+    def write(self, text, path='C:/lab7/Fedorko/231.txt'):
+        with open(path, "a", encoding="cp1251") as f:
             f.write(text)
-# TODO a check whether directory or file exist and make nice output

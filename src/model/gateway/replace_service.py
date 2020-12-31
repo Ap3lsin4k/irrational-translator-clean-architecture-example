@@ -26,4 +26,4 @@ class Replacer(object):
         for letter in text:
             new_text.append(self._replace_vowel_with_random_consonant_and_vice_versa(letter))
 
-        return new_text
+        return "".join(new_text)

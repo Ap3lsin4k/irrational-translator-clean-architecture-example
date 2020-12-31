@@ -1,7 +1,7 @@
 import pytest
 from src.model.interactor import UserStory
 
-from src import Replacer, MergerRepository
+from src import Replacer, MergerService
 from tests.dummies.presenter_dummies import PresenterDummy
 
 
@@ -22,6 +22,6 @@ def uc() -> UserStory:
 def test_user_story_reads_data_from_file_reader():
     fr = FileReaderSpy()
     assert not fr.was_read_file_from_default_pathname_called
-    uc = UserStory(PresenterDummy(), fr, None, MergerRepository())
+    uc = UserStory(PresenterDummy(), fr, None, MergerService())
     uc.modify_sentences_in_text()
     assert fr.was_read_file_from_default_pathname_called

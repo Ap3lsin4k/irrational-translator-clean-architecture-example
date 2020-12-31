@@ -22,7 +22,7 @@ class FileReaderRepositoryDummy():
     def __init__(self):pass
 
     def made_working_directory(self, dir_path): pass
-# TODO make working directory for lab5, lab6
+
     def read(self):
         pass
     def read_file_from_default_path(self):

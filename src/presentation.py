@@ -12,7 +12,7 @@ class Presenter:
     def present_sentence(self, sentence):
         presentable = list(map(self.__container_to_str, sentence))
         presentable[0] = presentable[0].capitalize()
-        self.view.print(*presentable, '\n')
+        self.view.print(*presentable, end='.\n')
 
     @staticmethod
     def __container_to_str(each_character_as_array_element):
@@ -20,3 +20,10 @@ class Presenter:
 
     def present_error(self, printable):
         builtins.print(printable)
+
+    def present_saving_dictionary(self, what, path, kyiv_dictionary):
+        print("Saving", what)
+        print("\tFilepath:", path)
+        print("\tNumber of keys in dictionary:", len(kyiv_dictionary))
+        print("\tContent (fragment): {0}\n".format((str(kyiv_dictionary))[:]))
+

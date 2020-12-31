@@ -1,10 +1,10 @@
 import pytest
-from model.gateway.merger import MergerRepository
+from model.gateway.merger import MergerService
 
 
 @pytest.fixture
-def merger() -> MergerRepository:
-    return MergerRepository()
+def merger() -> MergerService:
+    return MergerService()
 
 
 def test_merge_two_sentences_with_quote_punctuation_marks(merger):

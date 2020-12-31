@@ -8,11 +8,8 @@ class Library:
         self.parts_of_speech = parts_of_speech
 
     def save_parts_of_speech(self, path):
-        db = shelve.open(path)  # Відкриваємо файл
-        # Зберігаємо список
+        db = shelve.open(path)
         db["language"] = self.parts_of_speech.dictionary
-            # Зберігаємо кортеж
-        # Вивід значень
         db.close()
 
     def load_parts_of_speech(self, path):

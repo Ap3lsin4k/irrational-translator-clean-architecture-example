@@ -5,7 +5,7 @@ def merge_two_words(clean_word, second_word):
     return set(clean_word) | set(second_word)
 
 
-class MergerRepository():
+class MergerService():
     def __init__(self):
         self.merged_sentences = []
 
@@ -31,7 +31,7 @@ class MergerRepository():
 
     @staticmethod
     def merge_two_sentences(first_sentence, second_sentence):
-        return MergerRepository.merge_two_lists_of_words(
+        return MergerService.merge_two_lists_of_words(
             CleanAndSplitTextRepository.split_to_words(first_sentence),
             CleanAndSplitTextRepository.split_to_words(second_sentence))
 

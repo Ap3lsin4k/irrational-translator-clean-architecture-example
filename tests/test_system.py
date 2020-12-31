@@ -1,11 +1,11 @@
 from src.model.gateway.replace_service import Replacer
-from src import UserStory, Presenter, FileReaderRepository, MergerRepository
+from src import UserStory, Presenter, FileReaderRepository, MergerService
 
 from tests.fixtures.big_data_examples import whole_raw_text
 
 
 def test_whole_system():
-    interactor = UserStory(Presenter(FileReaderRepository()), FileReaderRepository(), Replacer(), MergerRepository())
+    interactor = UserStory(Presenter(FileReaderRepository()), FileReaderRepository(), Replacer(), MergerService())
     interactor.make_directories()
     interactor.execute_lab5_kyiv_dictionary()
     interactor.execute_lab6_parts_of_speech_in_ukrainian_language()
